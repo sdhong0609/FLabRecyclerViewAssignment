@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel: MainViewModel by viewModels()
-    private val normalItemListAdapter = NormalItemListAdapter()
+    private val normalItemListAdapter = NormalItemListAdapter(::onTrashIconClick)
     private val trashItemListAdapter = TrashItemListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,14 +30,26 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        setAdapters()
+        setObservers()
+    }
+
+    private fun setAdapters() {
         binding.recyclerViewNormalItems.adapter = normalItemListAdapter
+        binding.recyclerViewTrashItems.adapter = trashItemListAdapter
+    }
+
+    private fun setObservers() {
         viewModel.normalItems.asLiveData().observe(this) {
             normalItemListAdapter.submitList(it)
         }
 
-        binding.recyclerViewTrashItems.adapter = trashItemListAdapter
         viewModel.trashItems.asLiveData().observe(this) {
             trashItemListAdapter.submitList(it)
         }
+    }
+
+    private fun onTrashIconClick(item: Item) {
+        viewModel.onTrashIconClick(item)
     }
 }

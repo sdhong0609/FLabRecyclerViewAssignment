@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import com.hongstudio.flabrecyclerviewassignment.databinding.ItemNormalBinding
 
-class NormalItemListAdapter : ListAdapter<NormalItem, NormalItemViewHolder>(
-    object : ItemCallback<NormalItem>() {
-        override fun areItemsTheSame(oldItem: NormalItem, newItem: NormalItem) =
+class NormalItemListAdapter(
+    private val onTrashIconClick: (Item) -> Unit
+) : ListAdapter<Item, NormalItemViewHolder>(
+    object : ItemCallback<Item>() {
+        override fun areItemsTheSame(oldItem: Item, newItem: Item) =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: NormalItem, newItem: NormalItem) =
+        override fun areContentsTheSame(oldItem: Item, newItem: Item) =
             oldItem == newItem
     }
 ) {
@@ -21,7 +23,8 @@ class NormalItemListAdapter : ListAdapter<NormalItem, NormalItemViewHolder>(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            onTrashIconClick
         )
     }
 
