@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.hongstudio.flabrecyclerviewassignment"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.hongstudio.flabrecyclerviewassignment"
