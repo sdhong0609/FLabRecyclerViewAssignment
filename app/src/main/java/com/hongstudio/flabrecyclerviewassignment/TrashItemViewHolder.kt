@@ -4,10 +4,10 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.hongstudio.flabrecyclerviewassignment.databinding.ItemTrashBinding
 
 class TrashItemViewHolder(private val binding: ItemTrashBinding) : ViewHolder(binding.root) {
-    fun bind(trashItem: TrashItem) {
-        binding.textViewTrashItem.text = trashItem.title
+    fun bind(item: Item) {
+        binding.textViewTrashItem.text = item.title
         binding.textViewTimeout.run {
-            text = context.getString(R.string.trash_items_timeout_second, trashItem.timeoutSecond)
+            text = context.getString(R.string.trash_items_timeout_second, item.timeoutSecond)
         }
     }
 }
