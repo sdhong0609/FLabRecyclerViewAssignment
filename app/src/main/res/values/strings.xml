@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FLabRecyclerViewAssignment</string>
+    <string name="normal_items_title">Items</string>
 </resources>
