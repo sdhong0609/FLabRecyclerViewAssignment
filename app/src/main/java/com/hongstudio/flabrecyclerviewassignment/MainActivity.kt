@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
     private val normalItemListAdapter = NormalItemListAdapter(::onTrashIconClick)
-    private val trashItemListAdapter = TrashItemListAdapter()
+    private val trashItemListAdapter = TrashItemListAdapter(::onTrashItemClick)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,5 +51,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun onTrashIconClick(item: Item) {
         viewModel.onTrashIconClick(item)
+    }
+
+    private fun onTrashItemClick(item: Item) {
+        viewModel.onTrashItemClick(item)
     }
 }

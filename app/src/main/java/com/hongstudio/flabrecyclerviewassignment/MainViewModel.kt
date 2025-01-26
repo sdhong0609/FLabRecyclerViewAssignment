@@ -37,4 +37,17 @@ class MainViewModel : ViewModel() {
             newItems.toList()
         }
     }
+
+    fun onTrashItemClick(item: Item) {
+        _normalItems.update {
+            val newItems = it.toMutableList()
+            newItems.add(item)
+            newItems.toList()
+        }
+        _trashItems.update {
+            val newItems = it.toMutableList()
+            newItems.remove(item)
+            newItems.toList()
+        }
+    }
 }
