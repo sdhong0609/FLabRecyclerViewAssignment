@@ -2,4 +2,5 @@
     <string name="app_name">FLabRecyclerViewAssignment</string>
     <string name="normal_items_title">Items</string>
     <string name="trash_items_title">Trash</string>
+    <string name="trash_items_timeout_second">Time out %d</string>
 </resources>
