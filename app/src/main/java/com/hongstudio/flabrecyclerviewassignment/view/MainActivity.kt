@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.trashItems.asLiveData().observe(this) {
             trashItemListAdapter.submitList(it)
+            viewModel.setTimer()
         }
 
         viewModel.timeoutSecond.asLiveData().observe(this) {

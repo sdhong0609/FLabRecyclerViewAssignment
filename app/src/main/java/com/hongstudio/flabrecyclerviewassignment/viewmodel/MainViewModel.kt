@@ -49,8 +49,6 @@ class MainViewModel : ViewModel() {
             newItems.add(item)
             newItems.toList()
         }
-
-        setTimer()
     }
 
     fun onTrashItemClick(item: Item) {
@@ -64,21 +62,21 @@ class MainViewModel : ViewModel() {
             newItems.remove(item)
             newItems.toList()
         }
-
-        setTimer()
     }
 
-    private fun setTimer() {
+    fun setTimer() {
         countJob?.cancel()
 
         if (_trashItems.value.isEmpty()) return
 
         countJob = viewModelScope.launch {
             _timeoutSecond.value = TimeoutSecond.INITIAL_TIMEOUT_SECOND
-            while (_timeoutSecond.value > 0) {
+
+            while (_timeoutSecond.value > TimeoutSecond.ZERO) {
                 delay(COUNTDOWN_DELAY_TIME_MILLIS)
                 _timeoutSecond.update { it - COUNTDOWN_SECOND }
             }
+
             _trashItems.update { emptyList() }
         }
     }
