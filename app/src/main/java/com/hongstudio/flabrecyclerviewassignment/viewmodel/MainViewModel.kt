@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
+
     private val _normalItems: MutableStateFlow<List<Item>> = MutableStateFlow(
         listOf(
             Item(id = 1, title = "Item 1"),
@@ -35,6 +36,7 @@ class MainViewModel : ViewModel() {
     val timeoutSecond = _timeoutSecond.asStateFlow()
 
     private var countJob: Job? = null
+
 
     fun onTrashIconClick(item: Item) {
         _normalItems.update {

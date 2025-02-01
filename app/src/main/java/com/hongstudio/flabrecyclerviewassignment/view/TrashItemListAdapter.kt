@@ -19,6 +19,7 @@ class TrashItemListAdapter(
             oldItem == newItem
     }
 ) {
+
     private var timeoutSecond: Int = TimeoutSecond.INITIAL_TIMEOUT_SECOND
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrashItemViewHolder {

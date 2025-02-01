@@ -18,6 +18,7 @@ class NormalItemListAdapter(
             oldItem == newItem
     }
 ) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NormalItemViewHolder {
         return NormalItemViewHolder(
             ItemNormalBinding.inflate(
