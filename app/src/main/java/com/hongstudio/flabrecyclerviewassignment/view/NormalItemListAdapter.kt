@@ -1,10 +1,11 @@
-package com.hongstudio.flabrecyclerviewassignment
+package com.hongstudio.flabrecyclerviewassignment.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import com.hongstudio.flabrecyclerviewassignment.databinding.ItemNormalBinding
+import com.hongstudio.flabrecyclerviewassignment.model.Item
 
 class NormalItemListAdapter(
     private val onTrashIconClick: (Item) -> Unit
@@ -17,6 +18,7 @@ class NormalItemListAdapter(
             oldItem == newItem
     }
 ) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NormalItemViewHolder {
         return NormalItemViewHolder(
             ItemNormalBinding.inflate(

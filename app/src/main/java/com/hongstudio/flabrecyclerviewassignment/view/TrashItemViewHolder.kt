@@ -1,7 +1,9 @@
-package com.hongstudio.flabrecyclerviewassignment
+package com.hongstudio.flabrecyclerviewassignment.view
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.hongstudio.flabrecyclerviewassignment.R
 import com.hongstudio.flabrecyclerviewassignment.databinding.ItemTrashBinding
+import com.hongstudio.flabrecyclerviewassignment.model.Item
 
 class TrashItemViewHolder(
     private val binding: ItemTrashBinding,

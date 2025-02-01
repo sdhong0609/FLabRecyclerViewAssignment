@@ -1,7 +1,9 @@
-package com.hongstudio.flabrecyclerviewassignment
+package com.hongstudio.flabrecyclerviewassignment.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hongstudio.flabrecyclerviewassignment.common.TimeoutSecond
+import com.hongstudio.flabrecyclerviewassignment.model.Item
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
+
     private val _normalItems: MutableStateFlow<List<Item>> = MutableStateFlow(
         listOf(
             Item(id = 1, title = "Item 1"),
@@ -29,53 +32,62 @@ class MainViewModel : ViewModel() {
     private val _trashItems: MutableStateFlow<List<Item>> = MutableStateFlow(listOf())
     val trashItems = _trashItems.asStateFlow()
 
-    private val _timeoutSecond: MutableStateFlow<Int> = MutableStateFlow(3)
+    private val _timeoutSecond: MutableStateFlow<Int> =
+        MutableStateFlow(TimeoutSecond.INITIAL_TIMEOUT_SECOND)
     val timeoutSecond = _timeoutSecond.asStateFlow()
 
     private var countJob: Job? = null
 
-    fun onTrashIconClick(item: Item) {
-        _normalItems.update {
-            val newItems = it.toMutableList()
-            newItems.remove(item)
-            newItems.toList()
-        }
-        _trashItems.update {
-            val newItems = it.toMutableList()
-            newItems.add(item)
-            newItems.toList()
-        }
 
-        setTimer()
+    fun onTrashIconClick(item: Item) {
+        updateItems(items = _normalItems, selectedItem = item, isAdd = false)
+        updateItems(items = _trashItems, selectedItem = item, isAdd = true)
     }
 
     fun onTrashItemClick(item: Item) {
-        _normalItems.update {
-            val newItems = it.toMutableList()
-            newItems.add(item)
-            newItems.toList()
-        }
-        _trashItems.update {
-            val newItems = it.toMutableList()
-            newItems.remove(item)
-            newItems.toList()
-        }
-
-        setTimer()
+        updateItems(items = _normalItems, selectedItem = item, isAdd = true)
+        updateItems(items = _trashItems, selectedItem = item, isAdd = false)
     }
 
-    private fun setTimer() {
+    private fun updateItems(
+        items: MutableStateFlow<List<Item>>,
+        selectedItem: Item,
+        isAdd: Boolean
+    ) {
+        items.update {
+            val newItems = it.toMutableList()
+            if (isAdd) {
+                newItems.add(selectedItem)
+            } else {
+                newItems.remove(selectedItem)
+            }
+            newItems.toList()
+        }
+    }
+
+    fun setTimer() {
         countJob?.cancel()
 
         if (_trashItems.value.isEmpty()) return
 
         countJob = viewModelScope.launch {
-            _timeoutSecond.value = 3
-            while (_timeoutSecond.value > 0) {
-                delay(1000)
-                _timeoutSecond.update { it - 1 }
+            _timeoutSecond.value = TimeoutSecond.INITIAL_TIMEOUT_SECOND
+
+            while (_timeoutSecond.value > TimeoutSecond.ZERO) {
+                delay(COUNTDOWN_DELAY_TIME_MILLIS)
+                _timeoutSecond.update { it - COUNTDOWN_SECOND }
             }
+
             _trashItems.update { emptyList() }
         }
+    }
+
+    fun clearTrashItems() {
+        _trashItems.update { emptyList() }
+    }
+
+    companion object {
+        private const val COUNTDOWN_DELAY_TIME_MILLIS = 1000L
+        private const val COUNTDOWN_SECOND = 1
     }
 }

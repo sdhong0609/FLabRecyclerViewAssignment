@@ -1,4 +1,4 @@
-package com.hongstudio.flabrecyclerviewassignment
+package com.hongstudio.flabrecyclerviewassignment.model
 
 data class Item(
     val id: Long,
