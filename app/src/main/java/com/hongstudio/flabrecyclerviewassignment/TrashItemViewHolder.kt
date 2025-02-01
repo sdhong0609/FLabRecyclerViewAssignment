@@ -8,10 +8,10 @@ class TrashItemViewHolder(
     private val onTrashItemClick: (Item) -> Unit
 ) : ViewHolder(binding.root) {
 
-    fun bind(item: Item) {
+    fun bind(item: Item, timeoutSecond: Int) {
         binding.textViewTrashItem.text = item.title
         binding.textViewTimeout.run {
-            text = context.getString(R.string.trash_items_timeout_second, item.timeoutSecond)
+            text = context.getString(R.string.trash_items_timeout_second, timeoutSecond)
         }
         binding.root.setOnClickListener {
             onTrashItemClick(item)

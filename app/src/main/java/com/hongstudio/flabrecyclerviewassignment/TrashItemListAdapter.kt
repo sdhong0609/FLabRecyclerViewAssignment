@@ -17,6 +17,8 @@ class TrashItemListAdapter(
             oldItem == newItem
     }
 ) {
+    private var timeoutSecond: Int = 3
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrashItemViewHolder {
         return TrashItemViewHolder(
             ItemTrashBinding.inflate(
@@ -29,6 +31,11 @@ class TrashItemListAdapter(
     }
 
     override fun onBindViewHolder(holder: TrashItemViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), timeoutSecond)
+    }
+
+    fun updateTimeout(timeoutSecond: Int) {
+        this.timeoutSecond = timeoutSecond
+        notifyItemRangeChanged(0, itemCount)
     }
 }
