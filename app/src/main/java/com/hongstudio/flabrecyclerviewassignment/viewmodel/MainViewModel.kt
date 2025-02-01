@@ -32,34 +32,35 @@ class MainViewModel : ViewModel() {
     private val _trashItems: MutableStateFlow<List<Item>> = MutableStateFlow(listOf())
     val trashItems = _trashItems.asStateFlow()
 
-    private val _timeoutSecond: MutableStateFlow<Int> = MutableStateFlow(TimeoutSecond.INITIAL_TIMEOUT_SECOND)
+    private val _timeoutSecond: MutableStateFlow<Int> =
+        MutableStateFlow(TimeoutSecond.INITIAL_TIMEOUT_SECOND)
     val timeoutSecond = _timeoutSecond.asStateFlow()
 
     private var countJob: Job? = null
 
 
     fun onTrashIconClick(item: Item) {
-        _normalItems.update {
-            val newItems = it.toMutableList()
-            newItems.remove(item)
-            newItems.toList()
-        }
-        _trashItems.update {
-            val newItems = it.toMutableList()
-            newItems.add(item)
-            newItems.toList()
-        }
+        updateItems(items = _normalItems, selectedItem = item, isAdd = false)
+        updateItems(items = _trashItems, selectedItem = item, isAdd = true)
     }
 
     fun onTrashItemClick(item: Item) {
-        _normalItems.update {
+        updateItems(items = _normalItems, selectedItem = item, isAdd = true)
+        updateItems(items = _trashItems, selectedItem = item, isAdd = false)
+    }
+
+    private fun updateItems(
+        items: MutableStateFlow<List<Item>>,
+        selectedItem: Item,
+        isAdd: Boolean
+    ) {
+        items.update {
             val newItems = it.toMutableList()
-            newItems.add(item)
-            newItems.toList()
-        }
-        _trashItems.update {
-            val newItems = it.toMutableList()
-            newItems.remove(item)
+            if (isAdd) {
+                newItems.add(selectedItem)
+            } else {
+                newItems.remove(selectedItem)
+            }
             newItems.toList()
         }
     }
