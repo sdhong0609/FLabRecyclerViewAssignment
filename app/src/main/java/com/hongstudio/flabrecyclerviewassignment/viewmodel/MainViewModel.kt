@@ -2,6 +2,7 @@ package com.hongstudio.flabrecyclerviewassignment.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hongstudio.flabrecyclerviewassignment.common.TimeoutSecond
 import com.hongstudio.flabrecyclerviewassignment.model.Item
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -30,7 +31,7 @@ class MainViewModel : ViewModel() {
     private val _trashItems: MutableStateFlow<List<Item>> = MutableStateFlow(listOf())
     val trashItems = _trashItems.asStateFlow()
 
-    private val _timeoutSecond: MutableStateFlow<Int> = MutableStateFlow(3)
+    private val _timeoutSecond: MutableStateFlow<Int> = MutableStateFlow(TimeoutSecond.INITIAL_TIMEOUT_SECOND)
     val timeoutSecond = _timeoutSecond.asStateFlow()
 
     private var countJob: Job? = null
@@ -71,12 +72,17 @@ class MainViewModel : ViewModel() {
         if (_trashItems.value.isEmpty()) return
 
         countJob = viewModelScope.launch {
-            _timeoutSecond.value = 3
+            _timeoutSecond.value = TimeoutSecond.INITIAL_TIMEOUT_SECOND
             while (_timeoutSecond.value > 0) {
-                delay(1000)
-                _timeoutSecond.update { it - 1 }
+                delay(COUNTDOWN_DELAY_TIME_MILLIS)
+                _timeoutSecond.update { it - COUNTDOWN_SECOND }
             }
             _trashItems.update { emptyList() }
         }
+    }
+
+    companion object {
+        private const val COUNTDOWN_DELAY_TIME_MILLIS = 1000L
+        private const val COUNTDOWN_SECOND = 1
     }
 }
