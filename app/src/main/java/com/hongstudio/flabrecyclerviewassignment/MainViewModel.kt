@@ -75,6 +75,7 @@ class MainViewModel : ViewModel() {
                 delay(1000)
                 _timeoutSecond.update { it - 1 }
             }
+            _trashItems.update { emptyList() }
         }
     }
 }
