@@ -81,6 +81,10 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun clearTrashItems() {
+        _trashItems.update { emptyList() }
+    }
+
     companion object {
         private const val COUNTDOWN_DELAY_TIME_MILLIS = 1000L
         private const val COUNTDOWN_SECOND = 1

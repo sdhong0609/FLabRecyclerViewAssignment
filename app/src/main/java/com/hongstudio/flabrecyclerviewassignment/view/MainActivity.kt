@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.asLiveData
 import com.hongstudio.flabrecyclerviewassignment.R
+import com.hongstudio.flabrecyclerviewassignment.common.TimeoutSecond
 import com.hongstudio.flabrecyclerviewassignment.databinding.ActivityMainBinding
 import com.hongstudio.flabrecyclerviewassignment.model.Item
 import com.hongstudio.flabrecyclerviewassignment.viewmodel.MainViewModel
@@ -53,6 +54,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.timeoutSecond.asLiveData().observe(this) {
+            if (it == TimeoutSecond.ZERO) {
+                viewModel.clearTrashItems()
+                return@observe
+            }
             trashItemListAdapter.updateTimeout(it)
         }
     }
