@@ -46,14 +46,7 @@ class MainViewModel : ViewModel() {
             newItems.toList()
         }
 
-        countJob?.cancel()
-        countJob = viewModelScope.launch {
-            _timeoutSecond.value = 3
-            while (_timeoutSecond.value > 0) {
-                delay(1000)
-                _timeoutSecond.update { it - 1 }
-            }
-        }
+        setTimer()
     }
 
     fun onTrashItemClick(item: Item) {
@@ -66,6 +59,22 @@ class MainViewModel : ViewModel() {
             val newItems = it.toMutableList()
             newItems.remove(item)
             newItems.toList()
+        }
+
+        setTimer()
+    }
+
+    private fun setTimer() {
+        countJob?.cancel()
+
+        if (_trashItems.value.isEmpty()) return
+
+        countJob = viewModelScope.launch {
+            _timeoutSecond.value = 3
+            while (_timeoutSecond.value > 0) {
+                delay(1000)
+                _timeoutSecond.update { it - 1 }
+            }
         }
     }
 }
