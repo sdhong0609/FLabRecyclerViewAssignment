@@ -1,10 +1,11 @@
-package com.hongstudio.flabrecyclerviewassignment
+package com.hongstudio.flabrecyclerviewassignment.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import com.hongstudio.flabrecyclerviewassignment.databinding.ItemTrashBinding
+import com.hongstudio.flabrecyclerviewassignment.model.Item
 
 class TrashItemListAdapter(
     private val onTrashItemClick: (Item) -> Unit

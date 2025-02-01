@@ -1,4 +1,4 @@
-package com.hongstudio.flabrecyclerviewassignment
+package com.hongstudio.flabrecyclerviewassignment.view
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -7,7 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.asLiveData
+import com.hongstudio.flabrecyclerviewassignment.R
 import com.hongstudio.flabrecyclerviewassignment.databinding.ActivityMainBinding
+import com.hongstudio.flabrecyclerviewassignment.model.Item
+import com.hongstudio.flabrecyclerviewassignment.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 

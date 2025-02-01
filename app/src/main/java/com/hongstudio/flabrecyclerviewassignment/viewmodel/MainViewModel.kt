@@ -1,7 +1,8 @@
-package com.hongstudio.flabrecyclerviewassignment
+package com.hongstudio.flabrecyclerviewassignment.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.hongstudio.flabrecyclerviewassignment.model.Item
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
