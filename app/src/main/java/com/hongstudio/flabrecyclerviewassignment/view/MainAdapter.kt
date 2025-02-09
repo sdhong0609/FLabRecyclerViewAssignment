@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.hongstudio.flabrecyclerviewassignment.common.TimeoutSecond
 import com.hongstudio.flabrecyclerviewassignment.databinding.ItemNormalBinding
 import com.hongstudio.flabrecyclerviewassignment.databinding.ItemTrashBinding
 import com.hongstudio.flabrecyclerviewassignment.model.Item
@@ -21,8 +20,6 @@ class MainAdapter(
         override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean = oldItem == newItem
     }
 ) {
-    private var timeoutSecond: Int = TimeoutSecond.INITIAL_TIMEOUT_SECOND
-
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is Item.Normal -> TYPE_NORMAL
@@ -55,13 +52,8 @@ class MainAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is NormalItemViewHolder -> holder.bind(getItem(position))
-            is TrashItemViewHolder -> holder.bind(getItem(position), timeoutSecond)
+            is TrashItemViewHolder -> holder.bind(getItem(position))
         }
-    }
-
-    fun updateTimeout(timeoutSecond: Int) {
-        this.timeoutSecond = timeoutSecond
-        notifyItemRangeChanged(0, itemCount)
     }
 
     companion object {
