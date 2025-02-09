@@ -6,12 +6,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.hongstudio.flabrecyclerviewassignment.R
 import com.hongstudio.flabrecyclerviewassignment.common.TimeoutSecond
 import com.hongstudio.flabrecyclerviewassignment.databinding.ActivityMainBinding
 import com.hongstudio.flabrecyclerviewassignment.model.Item
 import com.hongstudio.flabrecyclerviewassignment.viewmodel.MainViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,21 +48,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setObservers() {
-        viewModel.normalItems.asLiveData().observe(this) {
-            normalItemListAdapter.submitList(it)
-        }
-
-        viewModel.trashItems.asLiveData().observe(this) {
-            trashItemListAdapter.submitList(it)
-            viewModel.setTimer()
-        }
-
-        viewModel.timeoutSecond.asLiveData().observe(this) {
-            if (it == TimeoutSecond.ZERO) {
-                viewModel.clearTrashItems()
-                return@observe
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.normalItems.collectLatest {
+                    normalItemListAdapter.submitList(it)
+                }
             }
-            trashItemListAdapter.updateTimeout(it)
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.trashItems.collectLatest {
+                    trashItemListAdapter.submitList(it)
+                    viewModel.setTimer()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.timeoutSecond.collectLatest {
+                    if (it == TimeoutSecond.ZERO) {
+                        viewModel.clearTrashItems()
+                        return@collectLatest
+                    }
+                    trashItemListAdapter.updateTimeout(it)
+                }
+            }
         }
     }
 
