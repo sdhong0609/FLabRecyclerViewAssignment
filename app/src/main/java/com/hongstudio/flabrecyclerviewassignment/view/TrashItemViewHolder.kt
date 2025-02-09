@@ -7,8 +7,14 @@ import com.hongstudio.flabrecyclerviewassignment.model.Item
 
 class TrashItemViewHolder(
     private val binding: ItemTrashBinding,
-    private val onTrashItemClick: (Item) -> Unit
+    private val onTrashItemClick: (position: Int) -> Unit
 ) : ViewHolder(binding.root) {
+
+    init {
+        binding.root.setOnClickListener {
+            onTrashItemClick(absoluteAdapterPosition)
+        }
+    }
 
     fun bind(item: Item) {
         binding.textViewTrashItem.text = item.title
@@ -16,9 +22,6 @@ class TrashItemViewHolder(
             binding.textViewTimeout.run {
                 text = context.getString(R.string.trash_items_timeout_second, item.timeoutSecond)
             }
-        }
-        binding.root.setOnClickListener {
-            onTrashItemClick(item)
         }
     }
 }

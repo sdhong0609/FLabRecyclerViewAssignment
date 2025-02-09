@@ -10,8 +10,8 @@ import com.hongstudio.flabrecyclerviewassignment.databinding.ItemTrashBinding
 import com.hongstudio.flabrecyclerviewassignment.model.Item
 
 class MainAdapter(
-    private val onTrashIconClick: (Item) -> Unit,
-    private val onTrashItemClick: (Item) -> Unit
+    private val onTrashIconClick: (position: Int) -> Unit,
+    private val onTrashItemClick: (position: Int) -> Unit
 ) : ListAdapter<Item, RecyclerView.ViewHolder>(
     object : DiffUtil.ItemCallback<Item>() {
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean =
