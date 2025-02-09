@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         setAdapters()
-        setObservers()
+        subscribeFlows()
     }
 
     private fun setAdapters() {
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerViewTrashItems.adapter = trashItemListAdapter
     }
 
-    private fun setObservers() {
+    private fun subscribeFlows() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.normalItems.collectLatest {
