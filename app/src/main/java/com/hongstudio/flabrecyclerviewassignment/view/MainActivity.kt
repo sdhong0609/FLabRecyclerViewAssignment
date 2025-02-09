@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hongstudio.flabrecyclerviewassignment.R
 import com.hongstudio.flabrecyclerviewassignment.databinding.ActivityMainBinding
-import com.hongstudio.flabrecyclerviewassignment.model.Item
 import com.hongstudio.flabrecyclerviewassignment.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -64,11 +63,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onTrashIconClick(item: Item) {
-        viewModel.onTrashIconClick(item)
+    private fun onTrashIconClick(position: Int) {
+        viewModel.onTrashIconClick(position)
     }
 
-    private fun onTrashItemClick(item: Item) {
-        viewModel.onTrashItemClick(item)
+    private fun onTrashItemClick(position: Int) {
+        viewModel.onTrashItemClick(position)
     }
 }

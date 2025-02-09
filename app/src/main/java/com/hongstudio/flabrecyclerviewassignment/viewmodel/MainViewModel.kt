@@ -26,7 +26,10 @@ class MainViewModel : ViewModel() {
     private var countJob: Job? = null
 
 
-    fun onTrashIconClick(item: Item) {
+    fun onTrashIconClick(position: Int) {
+        if (position !in _normalItems.value.indices) return
+
+        val item = _normalItems.value[position]
         _normalItems.update {
             it.toMutableList().also { newItems ->
                 newItems.remove(item)
@@ -41,7 +44,10 @@ class MainViewModel : ViewModel() {
         setTimer()
     }
 
-    fun onTrashItemClick(item: Item) {
+    fun onTrashItemClick(position: Int) {
+        if (position !in _trashItems.value.indices) return
+
+        val item = _trashItems.value[position]
         _normalItems.update {
             it.toMutableList().also { newItems ->
                 newItems.add(Item.Normal(id = item.id, title = item.title))
