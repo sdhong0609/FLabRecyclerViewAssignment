@@ -10,7 +10,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.hongstudio.flabrecyclerviewassignment.R
-import com.hongstudio.flabrecyclerviewassignment.common.TimeoutSecond
 import com.hongstudio.flabrecyclerviewassignment.databinding.ActivityMainBinding
 import com.hongstudio.flabrecyclerviewassignment.model.Item
 import com.hongstudio.flabrecyclerviewassignment.viewmodel.MainViewModel
@@ -60,7 +59,6 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.trashItems.collectLatest {
                     trashItemListAdapter.submitList(it)
-                    viewModel.setTimer()
                 }
             }
         }
@@ -68,10 +66,6 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.timeoutSecond.collectLatest {
-                    if (it == TimeoutSecond.ZERO) {
-                        viewModel.clearTrashItems()
-                        return@collectLatest
-                    }
                     trashItemListAdapter.updateTimeout(it)
                 }
             }
