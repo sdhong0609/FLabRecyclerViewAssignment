@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private val viewModel: MainViewModel by viewModels()
-    private val normalItemListAdapter = NormalItemListAdapter(::onTrashIconClick)
-    private val trashItemListAdapter = TrashItemListAdapter(::onTrashItemClick)
+    private val normalItemListAdapter = MainAdapter(::onTrashIconClick, ::onTrashItemClick)
+    private val trashItemListAdapter = MainAdapter(::onTrashIconClick, ::onTrashItemClick)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

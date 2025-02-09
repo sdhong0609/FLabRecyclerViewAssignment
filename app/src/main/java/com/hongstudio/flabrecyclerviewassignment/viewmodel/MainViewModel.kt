@@ -13,23 +13,14 @@ import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
-    private val _normalItems: MutableStateFlow<List<Item>> = MutableStateFlow(
-        listOf(
-            Item(id = 1, title = "Item 1"),
-            Item(id = 2, title = "Item 2"),
-            Item(id = 3, title = "Item 3"),
-            Item(id = 4, title = "Item 4"),
-            Item(id = 5, title = "Item 5"),
-            Item(id = 6, title = "Item 6"),
-            Item(id = 7, title = "Item 7"),
-            Item(id = 8, title = "Item 8"),
-            Item(id = 9, title = "Item 9"),
-            Item(id = 10, title = "Item 10")
-        )
+    private val _normalItems: MutableStateFlow<List<Item.Normal>> = MutableStateFlow(
+        (1L..10L).map { i ->
+            Item.Normal(id = i, title = "Item $i")
+        }
     )
     val normalItems = _normalItems.asStateFlow()
 
-    private val _trashItems: MutableStateFlow<List<Item>> = MutableStateFlow(listOf())
+    private val _trashItems: MutableStateFlow<List<Item.Trash>> = MutableStateFlow(listOf())
     val trashItems = _trashItems.asStateFlow()
 
     private val _timeoutSecond: MutableStateFlow<Int> =
@@ -40,28 +31,28 @@ class MainViewModel : ViewModel() {
 
 
     fun onTrashIconClick(item: Item) {
-        updateItems(items = _normalItems, selectedItem = item, isAdd = false)
-        updateItems(items = _trashItems, selectedItem = item, isAdd = true)
+        _normalItems.update {
+            it.toMutableList().also { newItems ->
+                newItems.remove(item)
+            }
+        }
+        _trashItems.update {
+            it.toMutableList().also { newItems ->
+                newItems.add(Item.Trash(id = item.id, title = item.title))
+            }
+        }
     }
 
     fun onTrashItemClick(item: Item) {
-        updateItems(items = _normalItems, selectedItem = item, isAdd = true)
-        updateItems(items = _trashItems, selectedItem = item, isAdd = false)
-    }
-
-    private fun updateItems(
-        items: MutableStateFlow<List<Item>>,
-        selectedItem: Item,
-        isAdd: Boolean
-    ) {
-        items.update {
-            val newItems = it.toMutableList()
-            if (isAdd) {
-                newItems.add(selectedItem)
-            } else {
-                newItems.remove(selectedItem)
+        _normalItems.update {
+            it.toMutableList().also { newItems ->
+                newItems.add(Item.Normal(id = item.id, title = item.title))
             }
-            newItems.toList()
+        }
+        _trashItems.update {
+            it.toMutableList().also { newItems ->
+                newItems.remove(item)
+            }
         }
     }
 
