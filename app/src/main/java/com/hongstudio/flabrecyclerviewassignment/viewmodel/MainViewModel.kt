@@ -41,6 +41,8 @@ class MainViewModel : ViewModel() {
                 newItems.add(Item.Trash(id = item.id, title = item.title))
             }
         }
+
+        setTimer()
     }
 
     fun onTrashItemClick(item: Item) {
@@ -54,9 +56,11 @@ class MainViewModel : ViewModel() {
                 newItems.remove(item)
             }
         }
+
+        setTimer()
     }
 
-    fun setTimer() {
+    private fun setTimer() {
         countJob?.cancel()
 
         if (_trashItems.value.isEmpty()) return
@@ -71,10 +75,6 @@ class MainViewModel : ViewModel() {
 
             _trashItems.update { emptyList() }
         }
-    }
-
-    fun clearTrashItems() {
-        _trashItems.update { emptyList() }
     }
 
     companion object {
