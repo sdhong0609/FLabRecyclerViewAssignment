@@ -76,20 +76,15 @@ class MainViewModel : ViewModel() {
             }
 
             while (_trashItems.value.first().timeoutSecond > TimeoutSecond.ZERO) {
-                delay(COUNTDOWN_DELAY_TIME_MILLIS)
+                delay(TimeoutSecond.COUNTDOWN_DELAY_TIME_MILLIS)
                 _trashItems.update { items ->
                     items.map {
-                        it.copy(timeoutSecond = it.timeoutSecond - COUNTDOWN_SECOND)
+                        it.copy(timeoutSecond = it.timeoutSecond - TimeoutSecond.COUNTDOWN_SECOND)
                     }
                 }
             }
 
             _trashItems.update { emptyList() }
         }
-    }
-
-    companion object {
-        private const val COUNTDOWN_DELAY_TIME_MILLIS = 1000L
-        private const val COUNTDOWN_SECOND = 1
     }
 }
