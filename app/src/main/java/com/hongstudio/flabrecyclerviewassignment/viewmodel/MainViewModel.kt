@@ -23,10 +23,6 @@ class MainViewModel : ViewModel() {
     private val _trashItems: MutableStateFlow<List<Item.Trash>> = MutableStateFlow(listOf())
     val trashItems = _trashItems.asStateFlow()
 
-    private val _timeoutSecond: MutableStateFlow<Int> =
-        MutableStateFlow(TimeoutSecond.INITIAL_TIMEOUT_SECOND)
-    val timeoutSecond = _timeoutSecond.asStateFlow()
-
     private var countJob: Job? = null
 
 
@@ -62,15 +58,24 @@ class MainViewModel : ViewModel() {
 
     private fun setTimer() {
         countJob?.cancel()
+        countJob = null
 
         if (_trashItems.value.isEmpty()) return
 
         countJob = viewModelScope.launch {
-            _timeoutSecond.value = TimeoutSecond.INITIAL_TIMEOUT_SECOND
+            _trashItems.update { items ->
+                items.map {
+                    it.copy(timeoutSecond = TimeoutSecond.INITIAL_TIMEOUT_SECOND)
+                }
+            }
 
-            while (_timeoutSecond.value > TimeoutSecond.ZERO) {
+            while (_trashItems.value.first().timeoutSecond > TimeoutSecond.ZERO) {
                 delay(COUNTDOWN_DELAY_TIME_MILLIS)
-                _timeoutSecond.update { it - COUNTDOWN_SECOND }
+                _trashItems.update { items ->
+                    items.map {
+                        it.copy(timeoutSecond = it.timeoutSecond - COUNTDOWN_SECOND)
+                    }
+                }
             }
 
             _trashItems.update { emptyList() }

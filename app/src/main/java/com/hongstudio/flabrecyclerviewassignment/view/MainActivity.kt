@@ -62,14 +62,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.timeoutSecond.collectLatest {
-                    trashItemListAdapter.updateTimeout(it)
-                }
-            }
-        }
     }
 
     private fun onTrashIconClick(item: Item) {
