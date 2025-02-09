@@ -22,8 +22,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewNormalItems"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/recyclerViewTrashItems"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewNormalItemsTitle" />
@@ -43,8 +44,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTrashItems"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/recyclerViewNormalItems"
         app:layout_constraintTop_toBottomOf="@id/textViewNormalItemsTitle" />
