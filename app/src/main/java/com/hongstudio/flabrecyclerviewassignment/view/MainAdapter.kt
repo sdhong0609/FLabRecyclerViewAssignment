@@ -4,7 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.hongstudio.flabrecyclerviewassignment.base.BaseViewHolder
 import com.hongstudio.flabrecyclerviewassignment.databinding.ItemNormalBinding
 import com.hongstudio.flabrecyclerviewassignment.databinding.ItemTrashBinding
 import com.hongstudio.flabrecyclerviewassignment.model.Item
@@ -12,7 +13,7 @@ import com.hongstudio.flabrecyclerviewassignment.model.Item
 class MainAdapter(
     private val onTrashIconClick: (position: Int) -> Unit,
     private val onTrashItemClick: (position: Int) -> Unit
-) : ListAdapter<Item, RecyclerView.ViewHolder>(
+) : ListAdapter<Item, BaseViewHolder<ViewBinding, Item>>(
     object : DiffUtil.ItemCallback<Item>() {
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean =
             oldItem.id == newItem.id
@@ -27,7 +28,10 @@ class MainAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): BaseViewHolder<ViewBinding, Item> {
         return when (viewType) {
             TYPE_NORMAL -> NormalItemViewHolder(
                 ItemNormalBinding.inflate(
@@ -36,7 +40,7 @@ class MainAdapter(
                     false
                 ),
                 onTrashIconClick
-            )
+            ) as BaseViewHolder<ViewBinding, Item>
 
             else -> TrashItemViewHolder(
                 ItemTrashBinding.inflate(
@@ -45,16 +49,14 @@ class MainAdapter(
                     false
                 ),
                 onTrashItemClick
-            )
+            ) as BaseViewHolder<ViewBinding, Item>
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is NormalItemViewHolder -> holder.bind(getItem(position))
-            is TrashItemViewHolder -> holder.bind(getItem(position))
-        }
+    override fun onBindViewHolder(holder: BaseViewHolder<ViewBinding, Item>, position: Int) {
+        holder.bind(getItem(position))
     }
+
 
     companion object {
         private const val TYPE_NORMAL = 1_000
